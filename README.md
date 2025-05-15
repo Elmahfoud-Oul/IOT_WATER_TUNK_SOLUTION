@@ -101,6 +101,13 @@ This project is licensed under the **MIT License**. Feel free to use, modify, an
 
 ---
 
+## Next Steps
+
+Make sure your folders have all referenced right path, and your Flask server and Arduino script are connected properly.
+
+Thank you for checking out the project! If you want help with deployment or adding badges, just ask. 🚀
+
+---
 ## 🗂 Project Structure
 
 ```bash
@@ -132,9 +139,3 @@ This project is licensed under the **MIT License**. Feel free to use, modify, an
 └── README.md               # Project documentation
 
 
-
-## Next Steps
-
-Make sure your folders have all referenced right path, and your Flask server and Arduino script are connected properly.
-
-Thank you for checking out the project! If you want help with deployment or adding badges, just ask. 🚀

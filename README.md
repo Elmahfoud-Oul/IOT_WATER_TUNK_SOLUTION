@@ -72,6 +72,35 @@ This project is a **real-time water tank monitoring system** using Arduino + Pyt
 
 ---
 
+## 🙌 Special Thanks
+
+We would like to express our deepest gratitude to our team members for their incredible work and collaboration:
+
+- 👨‍💻 **El Mahfoud Oulhadj** — Lead Developer & System Architect & Full Backend
+- 🎨 **Imran Chaidmi** — UI/UX Design and Visualization  
+- ⚙️ **El Mahfoud Oulhadj && KIND KERRY IZERE** — Arduino & Sensor Integration  
+- 🌐 **Omar Morso** — Frontend Dashboard Implementation  
+
+> "Great projects are built by passionate teams. Thank you for the effort, creativity, and persistence!"
+
+---
+
+## 🚀 Future Enhancements
+
+- Real-time updates with WebSockets or MQTT  
+- SMS/Email alerts for critical water levels  
+- Mobile-friendly UI/UX  
+- Cloud integration for historical data analytics  
+- AI-based predictions for future water usage  
+
+---
+
+## 🧾 License
+
+This project is licensed under the **MIT License**. Feel free to use, modify, and build on top of it with proper credit.
+
+---
+
 ## 🗂 Project Structure
 
 ```bash
@@ -101,36 +130,8 @@ This project is a **real-time water tank monitoring system** using Arduino + Pyt
 ├── Video/
 │   └── Real_Sumilation.mp4
 └── README.md               # Project documentation
----
 
-## 🙌 Special Thanks
 
-We would like to express our deepest gratitude to our team members for their incredible work and collaboration:
-
-- 👨‍💻 **El Mahfoud Oulhadj** — Lead Developer & System Architect & Full Backend
-- 🎨 **Imran Chaidmi** — UI/UX Design and Visualization  
-- ⚙️ **El Mahfoud Oulhadj && KIND KERRY IZERE** — Arduino & Sensor Integration  
-- 🌐 **Omar Morso** — Frontend Dashboard Implementation  
-
-> "Great projects are built by passionate teams. Thank you for the effort, creativity, and persistence!"
-
----
-
-## 🚀 Future Enhancements
-
-- Real-time updates with WebSockets or MQTT  
-- SMS/Email alerts for critical water levels  
-- Mobile-friendly UI/UX  
-- Cloud integration for historical data analytics  
-- AI-based predictions for future water usage  
-
----
-
-## 🧾 License
-
-This project is licensed under the **MIT License**. Feel free to use, modify, and build on top of it with proper credit.
-
----
 
 ## Next Steps
 

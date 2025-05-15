@@ -11,6 +11,7 @@ This project is a **real-time water tank monitoring system** using Arduino + Pyt
 | Hardware      | Arduino Uno, Water Level Sensor |
 | Communication | Serial over USB              |
 | Backend       | Python 3, pySerial, Flask    |
+| API Integrity | Gemini API integrity         |
 | Frontend      | HTML, CSS, JavaScript        |
 | Data Format   | JSON                         |
 | Visualization | Chart.js / Custom Graphs     |

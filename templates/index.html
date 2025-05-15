@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arduino Data</title>
+  <script>
+    async function fetchData() {
+      const response = await fetch('/get_data');
+      const data = await response.json();
+      if (data.error) {
+        document.getElementById('data').textContent = "Error: " + data.error;
+      } else {
+        // Dynamically update the content from the received JSON
+        document.getElementById('water-level').textContent = "Water Level: " + data.level;
+        // Update sets data if needed
+        document.getElementById('label').textContent = "Hourly Water Consumption Data:";
+        document.getElementById('sets').textContent = JSON.stringify(data.sets, null, 2);
+      }
+    }
+
+    // Fetch data every 5 seconds
+    setInterval(fetchData, 5000);
+
+    // Initial fetch on page load
+    window.onload = fetchData;
+  </script>
+</head>
+<body>
+  <h1>Arduino Data</h1>
+  <p id="data">Loading...</p>
+  <h2 id="water-level">Water Level: N/A</h2>
+  <h3 id="label">Hourly Water Consumption Data:</h3>
+  <pre id="sets"></pre>
+</body>
+</html>

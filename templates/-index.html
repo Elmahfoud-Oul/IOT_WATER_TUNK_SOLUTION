@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>analyse de la consommation d'eau</title>
+    <style>
+        body {
+            background-color: #f3f6fb;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: right;
+        }
+        .container {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            padding: 40px;
+        }
+        .poss {
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        h1 {
+            color: #1a73e8;
+            margin-bottom: 20px;
+        }
+        button {
+            background-color: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #155bc1;
+        }
+        #advice {
+            margin-top: 30px;
+            line-height: 1.8;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="poss">
+            <h1>AI Assistant d'analyse de la consommation d'eau</h1>
+            <p>Appuyez sur le bouton pour obtenir des conseils intelligents en fonction de votre consommation d'eau.</p>
+            <button onclick="fetchAdvice('ar')">🟢 AR Consulting</button>
+            <button onclick="fetchAdvice('fr')">🔵 FR Consulting</button>
+            <div id="advice"></div>
+        </div>
+    </div>
+
+    <script>
+        function fetchAdvice(lang) {
+            fetch(`/get_advice?lang=${lang}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("advice").innerHTML = data.advice;
+                })
+                .catch(error => {
+                    document.getElementById("advice").innerHTML = "حدث خطأ في جلب النصيحة.";
+                    console.error("Error fetching advice:", error);
+                });
+        }
+    </script>
+</body>
+</html>

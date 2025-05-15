@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" dir="rtl">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>statistiques</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='/st.css') }}">
+
+    <style>
+        body {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5)50%, rgba(0, 0, 0, 0.5)50%), url("{{ url_for('static', filename='back.jpg') }}");
+            background-position: center;
+            background-size: cover;
+            max-height: 100vh;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 90vh 7vh;
+            grid-template-areas: "chat" "nav";
+            justify-content: center;
+            text-align: center;
+            font-family: 'Arial', sans-serif;
+        }
+
+        div {
+            grid-area: chat;
+        }
+
+        nav {
+            grid-area: nav;
+            display: flex;
+            justify-content: space-evenly;
+            text-align: center;
+            align-content: center;
+            margin-top: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #ff7200;
+            font-size: 1.3rem;
+            transition: 0.9s;
+        }
+
+        .nav4 {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .nav4::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ff7200;
+            transition: 0.3s;
+        }
+
+        .nav4:hover::after {
+            display: none;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: 0;
+            background-color: beige;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        a:hover {
+            color: beige;
+            transform: scale(1.2);
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .poss {
+            max-width: 700px;
+            width: 100%;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #ff7200;
+            margin-bottom: 20px;
+        }
+
+        button {
+            background-color: #ff7200;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #ff7200;
+        }
+
+        #advice {
+            margin-top: 30px;
+            line-height: 1.8;
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+
+
+    <div>
+        <div class="container">
+            <div class="poss">
+                <h1>AI Assistant d'analyse de la consommation d'eau</h1>
+                <p>Appuyez sur le bouton pour obtenir des conseils intelligents en fonction de votre consommation d'eau.</p>
+                <button onclick="fetchAdvice('ar')">🟢 AR Consulting</button>
+                <button onclick="fetchAdvice('fr')">🔵 FR Consulting</button>
+                <div id="advice"></div>
+            </div>
+        </div>
+    </div>
+    <nav>
+        
+        <a class="nav4" href="#"><i class="fas fa-robot"></i> Conseils</a>
+        <a class="nav4" href="http://127.0.0.1:5500/statut.html"><i class="fas fa-bolt"></i> Statut</a>
+        <a class="nav4" href="http://127.0.0.1:5500/grah.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+        <a class="nav4" href="http://127.0.0.1:5500/a.html"><i class="fas fa-home"></i> Accueil</a>
+    </nav>
+</div>
+
+    <script>
+        function fetchAdvice(lang) {
+            fetch(`/get_advice?lang=${lang}`)
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("advice").innerHTML = data.advice;
+                })
+                .catch(error => {
+                    document.getElementById("advice").innerHTML = "Error, Bad request";
+                    console.error("Error fetching advice:", error);
+                });
+        }
+    </script>
+</body>
+
+</html>

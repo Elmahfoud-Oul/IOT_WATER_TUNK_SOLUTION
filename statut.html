@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>water</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5)50%, rgba(0, 0, 0, 0.5)50%), url(back.jpg);
+            background-position: center;
+            background-size: cover;
+            max-height: 100vh;
+            box-sizing: border-box;
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 90vh 7vh;
+            grid-template-areas: "chat" "nav";
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            grid-area: chat;
+            align-content: center;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.772) 50%, rgba(255, 255, 255, 0.772) 50%), url(back.jpg);
+            border-radius: 1.2rem;
+            height: 350px;
+            width: 600px;
+            padding: 20px;
+            top: 20%;
+            left: 25%;
+            right: 25%;
+            display: grid;
+            grid-template-columns: 50% 50%;
+            grid-template-rows: 100%;
+            grid-template-areas: "chato noti";
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0.1rem 0.5rem 0 #ff7200;
+        }
+
+        .ball {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: white;
+            overflow: hidden;
+            grid-area: chato;
+            box-shadow: 0 0.1rem 0.5rem 0 #070707;
+        }
+
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: rgba(0, 150, 255, 0.6);
+            bottom: 0;
+            left: -50%;
+            border-radius: 40%;
+            animation: wave 10s linear infinite;
+        }
+
+        .mask {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        .text {
+            position: absolute;
+            width: 100%;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+
+        .alert {
+            position: absolute;
+            top: 15%;
+            right: 10%;
+            background: whitesmoke;
+            text-align: center;
+            align-content: center;
+            margin: auto;
+            color: red;
+            padding: 10px;
+            width: 200px;
+            height: 75px;
+            border-radius: 1.2rem;
+            font-weight: bold;
+            z-index: 2;
+            display: none;
+            font-size: 1.3rem;
+            box-shadow: 0 0.1rem 0.5rem 0 #070707;
+        }
+
+        .alert1 {
+            position: absolute;
+            top: 15%;
+            font-size: 1.3rem;
+            right: 10%;
+            background: whitesmoke;
+            text-align: center;
+            align-content: center;
+            margin: auto;
+            color: #018623;
+            padding: 10px;
+            width: 200px;
+            height: 75px;
+            border-radius: 1.2rem;
+            font-weight: bold;
+            box-shadow: 0 0.1rem 0.5rem 0 #070707;
+        }
+
+        nav {
+            grid-area: nav;
+            position: relative;
+            display: flex;
+            justify-content: space-evenly;
+            text-align: center;
+            align-content: center;
+            margin-top: 20px;
+        }
+
+        a {
+            text-decoration: none;
+            color: #ff7200;
+            font-size: 1.3rem;
+            transition: 0.9s;
+        }
+
+        .nav2 {
+            position: relative;
+            padding-left: 20px;
+        }
+
+        .nav2::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #ff7200;
+            transition: 0.3s;
+        }
+
+        .nav2:hover::after {
+            display: none;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 2px;
+            width: 0;
+            background-color: beige;
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        a:hover {
+            color: beige;
+            transform: scale(1.2);
+        }
+        .tip {
+            position: absolute;
+            font-size: 1.3rem;
+            bottom: 15%;
+            right: 10%;
+            background: whitesmoke;
+            text-align: center;
+            align-content: center;
+            margin: auto;
+            color: #070707;
+            padding: 10px;
+            width: 200px;
+            height: 75px;
+            border-radius: 1.2rem;
+            font-weight: bold;
+            z-index: 5;
+            box-shadow: 0 0.1rem 0.5rem 0 #070707;
+        }
+        h2{
+            grid-area: chato;
+            z-index: 20;
+            position: absolute;
+            top: -5%;
+            left: 18%;
+            color: #ff7200;
+        }
+        .conect{
+            grid-area: noti;
+            position: absolute;
+            color: #ff7200;
+            right: 55%;
+            top: -5%;
+        }
+
+        .noti{
+            grid-area: noti;
+            position: absolute;
+            color: #ff7200;
+            right: 50%;
+            top: 45%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h2>Niveau d'eau :</h2>
+        <div class="ball">
+            <div class="mask" id="mask">
+                <div class="wave" id="wave"></div>
+            </div>
+            <div class="text" id="text">0%</div>
+        </div>
+        <h3 class="conect">Connexion :</h3>
+        <div class="alert" id="alert">not connected</div>
+        <div class="alert1">connected</div>
+        <h3 class="noti">Alerte d'etat :</h3>
+        <div class="tip" id="tipText"></div>
+    </div>
+    <nav>
+        <a class="nav1" href="a.html"><i class="fas fa-home"></i> Accueil</a>
+        <a class="nav2" href="statut.html"><i class="fas fa-bolt"></i> Statut</a>
+        <a class="nav3" href="grah.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+        <a class="nav4" href="http://127.0.0.1:5005"><i class="fas fa-robot"></i>AI Conseils</a>
+    </nav>
+
+    <script>
+        function timeout(ms) {
+            return new Promise((_, reject) =>
+                setTimeout(() => reject(new Error("Timeout")), ms)
+            );
+        }
+        
+        function getTip(level) {
+            if (level < 20) return "le niveu d'eau est bas ⚠️";
+            if (level < 50) return "essayez d'economiser 💧";
+            if (level < 90) return "bon ✅";
+            return "excellent 🎉";
+        }
+        
+        // تحديث مستوى الماء
+        async function updateLevel() {
+            const alertBox = document.getElementById('alert');
+            try {
+                const response = await Promise.race([
+                    fetch('a.json'),
+                    timeout(10000)
+                ]);
+                const data = await response.json();
+                const level = data.level;
+        
+                const wave = document.getElementById('wave');
+                document.getElementById('text').textContent = level + '%';
+                document.getElementById('mask').style.height = level + '%';
+                document.getElementById('tipText').textContent = getTip(level);
+        
+                // تغيير اللون إذا كانت النسبة أقل من 20%
+                if (level < 20) {
+                    wave.classList.add('low');
+                } else {
+                    wave.classList.remove('low');
+                }
+        
+                alertBox.style.display = 'none';
+            } catch (e) {
+                alertBox.style.display = 'block';
+            }
+        }
+        
+        updateLevel();
+        setInterval(updateLevel, 10000);
+        
+    </script>
+
+</body>
+
+</html>

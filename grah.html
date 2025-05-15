@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>statistiques</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<style>
+  body {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.5)50%, rgba(0, 0, 0, 0.5)50%), url(back.jpg);
+    background-position: center;
+    background-size: cover;
+    max-height: 100vh;
+    box-sizing: border-box;
+    display: grid;
+    grid-template-rows: 100vh 100vh 10vh;
+    grid-template-areas: "graphe" "graphe2" "nav";
+    justify-content: center;
+    text-align: center;
+  }
+
+  .graphe2,
+  .graphe {
+    width: 75vw;
+    margin-top: 35px;
+    height: fit-content;
+    background: linear-gradient(to top, rgba(255, 255, 255, 0.772) 50%, rgba(255, 255, 255, 0.772) 50%), url(back.jpg);
+    padding: 1rem;
+    border-radius: 2rem;
+    box-shadow: 0 0.1rem 0.5rem 0 #ff7200;
+  }
+
+  .graphe2 {
+    grid-area: graphe2;
+  }
+
+  .graphe {
+    grid-area: graphe;
+  }
+
+  nav {
+    grid-area: nav;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-bottom: 20px;
+  }
+
+  a {
+    text-decoration: none;
+    color: #ff7200;
+    font-size: 1.3rem;
+    transition: 0.9s;
+  }
+
+  .nav3 {
+    position: relative;
+    padding-left: 20px;
+  }
+
+  .nav3::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-55%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ff7200;
+    transition: 0.3s;
+  }
+
+  .nav3:hover::after {
+    display: none;
+  }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 2px;
+    width: 0;
+    background-color: beige;
+    transition: width 0.3s ease;
+  }
+
+  nav a:hover::after {
+    width: 100%;
+  }
+
+  a:hover {
+    color: beige;
+    transform: scale(1.2);
+  }
+
+  button {
+    grid-area: graphe;
+    width: fit-content;
+    height: fit-content;
+    margin: 20px;
+    padding: 10px 20px;
+    background-color: #ff7200;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+</style>
+
+<body>
+  <div class="graphe">
+    <canvas id="myChart"></canvas>
+  </div>
+  <nav>
+    <a class="nav1" href="a.html"><i class="fas fa-home"></i> Accueil</a>
+    <a class="nav2" href="statut.html"><i class="fas fa-bolt"></i> Statut</a>
+    <a class="nav3" href="grah.html"><i class="fas fa-chart-bar"></i> Statistiques</a>
+    <a class="nav4" href="chat.html"><i class="fas fa-robot"></i> Conseils</a>
+  </nav>
+  <div class="graphe2">
+    <canvas id="weeklyChart"></canvas>
+  </div>
+  <button onclick="clearWaterData()">suprimer data</button>
+
+  <script>
+    let hourlyChart = null;
+    let weeklyChart = null;
+
+    async function getWaterLevelFromJson() {
+      try {
+        const response = await fetch('a.json');
+        const data = await response.json();
+        return data.level;
+      } catch (error) {
+        console.error('erreur JSON:', error);
+        return null;
+      }
+    }
+
+    async function updateWaterLevel() {
+      const now = new Date();
+      const currentHour = now.getHours().toString().padStart(2, '0') + ":" + now.getMinutes().toString().padStart(2, '0');
+
+      const newLevel = await getWaterLevelFromJson();
+      if (newLevel !== null) {
+        let waterLevels = JSON.parse(localStorage.getItem("waterLevels")) || {};
+
+        // MAX24
+        let keys = Object.keys(waterLevels);
+        if (keys.length >= 24) {
+          delete waterLevels[keys[0]];
+        }
+
+        waterLevels[currentHour] = newLevel;
+        localStorage.setItem("waterLevels", JSON.stringify(waterLevels));
+
+        console.log(`level at ${currentHour}: ${newLevel}`);
+        displayChart();
+      } else {
+        console.log('No value');
+      }
+    }
+
+    if (new Date().getHours() === 23) {
+      setTimeout(() => {
+        localStorage.removeItem("waterLevels");
+        console.log('Deleted data');
+      }, 30 * 60 * 1000);
+    }
+
+    async function displayChart() {
+      let waterLevels = JSON.parse(localStorage.getItem("waterLevels")) || {};
+      const labels = Object.keys(waterLevels);
+      const data = Object.values(waterLevels);
+
+      if (hourlyChart) hourlyChart.destroy();
+
+      const ctx = document.getElementById('myChart').getContext('2d');
+      hourlyChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: labels,
+          datasets: [{
+            label: 'L/h',
+            data: data,
+            backgroundColor: "rgba(75, 192, 192, 0.5)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+              title: { display: true, text: 'level' }
+            }
+          }
+        }
+      });
+
+      const json = await fetch('a.json').then(res => res.json());
+      const dataValues = json.sets[1].data;
+
+      const averages = [];
+      for (let i = 0; i < dataValues.length; i += 24) {
+        const dayData = dataValues.slice(i, i + 24);
+        const avg = dayData.reduce((a, b) => a + b, 0) / 24;
+        averages.push(+avg.toFixed(2));
+      }
+
+      const dayLabels = averages.map((_, i) => `Jour ${i + 1}`);
+
+      if (weeklyChart) weeklyChart.destroy();
+
+      weeklyChart = new Chart(document.getElementById("weeklyChart"), {
+        type: "bar",
+        data: {
+          labels: dayLabels,
+          datasets: [{
+            label: "Etat moyen / semaine",
+            data: averages,
+            backgroundColor: "rgba(75, 192, 192, 0.5)",
+            borderColor: "rgba(75, 192, 192, 1)",
+            borderWidth: 2
+          }]
+        },
+        options: {
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+
+    window.onload = () => {
+      updateWaterLevel();
+      setInterval(updateWaterLevel, 60 * 1000); // تحديث كل دقيقة
+    };
+
+    function clearWaterData() {
+      localStorage.removeItem("waterLevels");
+      localStorage.removeItem("waterDate");
+      location.reload();
+    };
+  </script>
+</body>
+
+</html>

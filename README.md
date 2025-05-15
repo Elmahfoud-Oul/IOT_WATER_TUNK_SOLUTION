@@ -43,10 +43,8 @@ This project is a **real-time water tank monitoring system** using Arduino + Pyt
 
 ---
 
-## 🎥 Simulation Demo
-
 > Watch the full real-time simulation video:  
-**📹 `Video/Real_Sumilation.mp4`**
+> **📹 [Video/Real_Sumilation.mp4](Video/Real_Sumilation.mp4)**
 
 ---
 
